@@ -1,0 +1,97 @@
+<section class="main-container">
+  <div class="header-container">
+    <div class="mainHeader">
+      <h1>Task Manager</h1>
+    </div>
+    <div class="headerSearch">
+      <ng-container>
+        <mat-form-field class="example-full-width">
+          <mat-label>Search</mat-label>
+          <input matInput id="searchTask" [(ngModel)]="taskFilter"  placeholder="Search Task" (keyup)="searchTask($event)" #input>
+        </mat-form-field>
+      <button mat-raised-button color="primary" (click)="addNewTask()" id="newTaskButton">Add new task</button>
+    </ng-container>
+    </div>
+  </div>
+
+  <div class="rablte-container">
+    <table class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+        <!--- Note that these columns can be defined in any order.
+              The actual rendered columns are set as a property on the row definition" -->
+      
+        <!-- ID Column -->
+        <ng-container matColumnDef="taskID">
+          <th mat-header-cell *matHeaderCellDef> Task ID </th>
+          <td mat-cell *matCellDef="let task"> {{task.taskID}} </td>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="taskName">
+          <th mat-header-cell *matHeaderCellDef> Task Name </th>
+          <td mat-cell *matCellDef="let task"> {{task.taskName}} </td>
+        </ng-container>
+      
+        <!-- Description Column -->
+        <ng-container matColumnDef="taskDescription">
+          <th mat-header-cell *matHeaderCellDef> Description </th>
+          <td mat-cell *matCellDef="let task"> {{task.taskDescription}} </td>
+        </ng-container>
+    
+        <!-- Last Modified Column -->
+        <ng-container matColumnDef="dateModified">
+          <th mat-header-cell *matHeaderCellDef> Last Modified </th>
+          <td mat-cell *matCellDef="let task"> {{task.dateModified | date:'mediumDate'}} </td>
+        </ng-container>
+      
+        <!-- Date Created Column -->
+        <ng-container matColumnDef="dateCreated">
+          <th mat-header-cell *matHeaderCellDef> Date Created </th>
+          <td mat-cell *matCellDef="let task">{{task.dateCreated | date:'mediumDate'}}</td>
+        </ng-container>
+
+        <!-- Tags Column -->
+        <ng-container matColumnDef="tag">
+          <mat-chip-list>
+            <th mat-header-cell *matHeaderCellDef> Tags </th>
+            <td mat-cell *matCellDef="let task">
+              <mat-chip *ngFor="let tags of task.tag">{{tags.name}}</mat-chip>
+            </td>
+          </mat-chip-list>
+        </ng-container>
+
+        <!-- Status Column -->
+        <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef> Status </th>
+              <td mat-cell *matCellDef="let task" [ngStyle]="{'color':task.status==2 ? 'green' : task.status==1 ? '#8B8000' : 'black'}">
+                <div mat-cell *ngIf="task.status == 0" >New</div>
+                <div mat-cell *ngIf="task.status == 1">In Progress</div>
+                <div mat-cell *ngIf="task.status == 2">Completed</div>
+              </td>
+        </ng-container>
+
+        <!-- Action Columns -->>
+        <ng-container matColumnDef="action" class="actionColumn">
+            <th mat-header-cell *matHeaderCellDef> Action </th>
+            <td mat-cell *matCellDef="let task"> {{task.action}} 
+                 <button mat-raised-button color="primary" (click)="editTask(task)"> Edit </button>
+               <button mat-raised-button *ngIf="task.status != 2" color="warn" (click)="deleteTask(task)"> Delete </button>
+            </td>
+        </ng-container>
+
+
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+          <!-- Row shown when there is no matching data. -->
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" colspan="4">No data matching the filter "{{taskFilter}}"</td>
+        </tr>
+      </table>
+      
+      <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+    </table>
+  </div>
+</section>

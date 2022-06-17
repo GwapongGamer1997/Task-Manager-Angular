@@ -1,0 +1,18 @@
+<div class="star-container">
+    <ng-container *ngFor="let star of counter()">
+        <span class="star material-icons">star</span>                   
+    </ng-container>
+</div>
+
+<div class="btn-container">
+    <div fxlayout="row">
+        <div >
+            <button>
+                <span mat-button (click)="updateStarRating(true)" class="material-icons">add</span>
+            </button>
+            <button>
+                <span mat-button (click)="updateStarRating(false)" class="material-icons">remove</span>
+            </button>
+        </div>
+    </div>
+</div>

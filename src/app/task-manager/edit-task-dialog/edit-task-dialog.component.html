@@ -1,0 +1,66 @@
+<div>
+    <h1>Edit Task</h1>
+      <mat-stepper [linear]="!isLinear" #stepper>
+  
+        <mat-step [stepControl]="taskManagerFormGroup">
+          <form [formGroup]="taskManagerFormGroup">
+            <ng-template matStepLabel>Task Information</ng-template>
+  
+            <mat-form-field appearance="fill" [style.width.px]="595">
+              <mat-label>Task Name</mat-label>
+                <input matInput formControlName="taskName" placeholder="Task name">
+              <mat-error *ngIf="taskManagerFormGroup.controls['taskName'].hasError('required')">Name is required</mat-error>
+            </mat-form-field>
+  
+            <mat-form-field appearance="fill" [style.width.px]="595">
+              <mat-label>Description</mat-label>
+              <textarea matInput formControlName="taskDescription" placeholder="Put your description here"></textarea>
+              <mat-error *ngIf="taskManagerFormGroup.controls['taskDescription'].hasError('required')">Description is rquired</mat-error>
+            </mat-form-field>
+  
+            <mat-form-field appearance="fill" [style.width.px]="595">
+              <mat-label>Status</mat-label>
+              <mat-select formControlName="status">
+                <mat-option [value]="0">New</mat-option>
+                <mat-option [value]="1">In Progress</mat-option>
+                <mat-option [value]="2">Completed</mat-option>
+              </mat-select>
+            </mat-form-field>
+  
+            <div>
+              <button mat-button (click)="cancel()">Cancel</button>
+              <button mat-button matStepperNext [disabled]="taskManagerFormGroup.invalid">Next</button>
+            </div>
+  
+          </form>
+        </mat-step>
+  
+        <!-- <mat-step [stepControl]="tagManagerFormGroup" label="Tags">
+          <form [formGroup]="tagManagerFormGroup">
+  
+              <mat-form-field appearance="fill" [style.width.px]="595">
+                <mat-label>Tag name</mat-label>
+                <textarea matInput formControlName="name" placeholder="Tag name"></textarea>
+                <mat-error *ngIf="tagManagerFormGroup.controls['name'].hasError('required')">Tag name is required</mat-error>
+              </mat-form-field>
+  
+            <div>
+              <button mat-button matStepperPrevious>Back</button>
+              <button mat-button matStepperNext [disabled]="taskManagerFormGroup.invalid">Next</button>
+            </div> 
+  
+          </form>
+        </mat-step> -->
+        
+        <mat-step>
+          <ng-template matStepLabel>Done</ng-template>
+          <p>You are now done.</p>
+          <div>
+            <button mat-button (click)="save()">Save</button>
+            <button mat-button matStepperPrevious>Back</button>
+            <button mat-button (click)="stepper.reset()">Reset</button>
+          </div>
+        </mat-step>
+  
+      </mat-stepper>
+  </div>
